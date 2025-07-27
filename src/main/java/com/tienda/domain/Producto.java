@@ -3,9 +3,11 @@ package com.tienda.domain;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import lombok.Data;
+import jakarta.persistence.ManyToOne;
 import com.tienda.domain.Categoria;
-//import javax.persistence.ManyToOne;
+//import com.categoria.domain.Categorias;
 //import javax.persistence.JoinColumn;
+ 
 
 @Data
 @Entity
@@ -22,10 +24,10 @@ public class Producto implements Serializable {
     private String rutaImagen;
     private boolean activo;
     private String detalle;
-    private int existencias;
-    private double precio;
+    private int existencias; //agregar
+    private double precio;  //agregar
     
-    //asociacion foreng key
+    //asociacion
     @ManyToOne
     @JoinColumn(name="id_categoria")
     Categoria categoria;
@@ -35,6 +37,6 @@ public class Producto implements Serializable {
 
     public Producto(String producto, boolean activo) {
         this.descripcion = producto;
-        this.activo = activo;
+        this.activo=activo;
     }
 }
