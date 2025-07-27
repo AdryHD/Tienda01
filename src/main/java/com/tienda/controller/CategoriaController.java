@@ -65,4 +65,6 @@ public class CategoriaController {
         return "/categoria/modifica";
     }   
     
+    //prueba
+    
 }
