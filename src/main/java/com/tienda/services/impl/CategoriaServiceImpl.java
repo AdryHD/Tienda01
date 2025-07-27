@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
     
-    @Autowired //este autowride sobreescribe lo que hay en categoria DAO y conectarse con la base de datos (CRUD)
+    @Autowired
     private CategoriaDao categoriaDao;
 
     @Override
-    @Transactional(readOnly=true) //tiene que ir a hacer algo a la BD
+    @Transactional(readOnly=true)
     public List<Categoria> getCategorias(boolean activos) {
         var lista=categoriaDao.findAll();
         if (activos) {
@@ -24,23 +24,22 @@ public class CategoriaServiceImpl implements CategoriaService {
         return lista;
     }
     
-   
-@Override
-@Transactional(readOnly=true)
-public Categoria getCategoria(Categoria categoria) {
-    return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
-}
+    @Override
+    @Transactional(readOnly=true)
+    public Categoria getCategoria(Categoria categoria) {
+        return categoriaDao.findById(categoria.getIdCategoria()).orElse(null);
+    }
 
+    
     @Override
     @Transactional
-    public void save(Categoria categoria) {
+    public void save(Categoria categoria){
         categoriaDao.save(categoria);
     }
     
     @Override
     @Transactional
-    public void delete(Categoria categoria) {
+    public void delete(Categoria categoria){
         categoriaDao.delete(categoria);
     }
-    
 }
