@@ -61,7 +61,7 @@ public class ReporteController {
             throws IOException {
         @SuppressWarnings("unchecked")
         Map<String, Object> parametros = new HashMap();
-        parametros.put("fechaInicio", fechaInicial);
+        parametros.put("fechaInicial", fechaInicial);
         parametros.put("fechaFinal", fechaFinal);
         return reporteService.generaReporte("ventasTotales", parametros, tipo);
     }
