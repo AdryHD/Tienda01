@@ -4,8 +4,9 @@
  */
 
 
-window.addCard = function(formulario) {
-const id = formulario.querySelector('input[name="idProducto"]').value;
-const url = '/carrito/agregar/' + encodeURIComponent(id);
-$("#resultsBlock").load(url);
-};
+function addCard(formulario){ 
+var valor = formulario.elements[0].value;
+var url = '/carrito/agregar';
+url = url + '/' + valor;
+$("#resultsBlock").load(url);}
+ 

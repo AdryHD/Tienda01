@@ -43,14 +43,17 @@ public class ReporteController {
 
     @GetMapping("/usuarios")
     public ResponseEntity<Resource> reporteUsuarios(@RequestParam String tipo)
+            
             throws IOException {
-        return reporteService.generaReporte("usuarios", null, tipo);
+        return reporteService.generaReporte("usuarios", null,tipo);
     }
 
     @GetMapping("/ventas")
     public ResponseEntity<Resource> reporteVentas(@RequestParam String tipo)
             throws IOException {
         return reporteService.generaReporte("ventas", null, tipo);
+        
+        
     }
 
     @GetMapping("/ventasTotales")

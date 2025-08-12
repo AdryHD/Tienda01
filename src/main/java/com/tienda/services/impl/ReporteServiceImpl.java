@@ -66,6 +66,8 @@ public class ReporteServiceImpl implements ReporteService {
 
             //Un objeto para leer efectivamente el reporte
             InputStream elReporte = fuente.getInputStream();
+            
+     
 
             //Se crea el reporte como tal
             var reporteJasper
@@ -74,6 +76,9 @@ public class ReporteServiceImpl implements ReporteService {
                                     elReporte,
                                     parametros,
                                     datasource.getConnection());
+            
+ 
+
             MediaType mediaType = null;
             String archivoSalida = "";
             byte[] data;
@@ -82,6 +87,9 @@ public class ReporteServiceImpl implements ReporteService {
                     JasperExportManager.exportReportToPdfStream(reporteJasper, salida);
                     mediaType = MediaType.APPLICATION_PDF;
                     archivoSalida = reporte + ".pdf";
+                    
+                   
+
                 }
                 case "Xls" -> {
                     JRXlsxExporter exportador = new JRXlsxExporter();
@@ -133,8 +141,11 @@ public class ReporteServiceImpl implements ReporteService {
         } catch (SQLException | JRException e) {
             e.printStackTrace();
             return null;
+            
         }
+        
 
     }
+    
 
 }

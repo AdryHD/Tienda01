@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extrasspringsecurity6">
     <head th:fragment="head">
-        <title>Caso Práctico#1</title>
+        <title>TechShop</title>
         <meta charset="UTF-8"/>
         <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
         <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
@@ -25,7 +25,9 @@
                             <li class="nav-item px-2"><a class="nav-menu-link nav-link" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-menu-link nav-link" th:href="@{/producto/listado}">[[#{plantilla.productos}]]</a></li>
                             
-                            <li class="nav-item dropdown"sec:authorize='hasRole("ROLE_ADMIN")'>
+                                 
+                                   <!-- pestaña de pruebas con todas las opciones -->               
+                            <li class="nav-item dropdown" sec:authorize='hasRole("ROLE_ADMIN")'>
                                 <a class="nav-link dropdown-toggle" 
                                    data-bs-toggle="dropdown" 
                                    href="#" 
@@ -34,12 +36,15 @@
                                 <ul class="dropdown-menu dropdown-menu-dark">
                                     <li><a class="dropdown-item" th:href="@{/pruebas/listado}">[[#{plantilla.asociaciones}]]</a></li>
                                     <li><a class="dropdown-item" th:href="@{/pruebas/listado2}">[[#{plantilla.consultas}]]</a></li>
-                               
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" th:href="@{/reportes/principal}">[[#{plantilla.reportes}]]</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/reportes/usuarios?tipo=vPdf}">Reporte de Usuarios</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/reportes/ventas?tipo=vPdf}">Reporte de Ventas</a></li>
                                 </ul>
                             </li>
-                            
-                            
-                            
+                                   
+                                   
+                                   
                             
                             <li class="nav-item px-2"><a class="nav-menu-link nav-link" th:href="@{/usuario/listado}">[[#{plantilla.usuarios}]]</a></li>
                         </ul>
