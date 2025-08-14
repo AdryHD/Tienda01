@@ -1,0 +1,192 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="ventasTotales" language="java" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="72c8afc5-5c39-4f49-9142-6fb0dd4856cd">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="techshop"/>
+	<dataset name="paraGrafico" uuid="b694ceef-8b20-43ac-a887-d7fbdd7f5e7c">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="techshop"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="fechaInicial" class="java.lang.String"/>
+		<parameter name="fechaFinal" class="java.lang.String"/>
+		<query language="sql"><![CDATA[SELECT techshop.categoria.descripcion AS Categoria,
+	sum( techshop.venta.precio * techshop.venta.cantidad) AS Total
+FROM techshop.venta
+	INNER JOIN techshop.factura ON 
+	 techshop.venta.id_factura = techshop.factura.id_factura 
+	INNER JOIN techshop.producto ON 
+	 techshop.venta.id_producto = techshop.producto.id_producto 
+	INNER JOIN techshop.categoria ON 
+	 techshop.producto.id_categoria = techshop.categoria.id_categoria 
+WHERE 
+	 techshop.factura.fecha BETWEEN $P{fechaInicial} AND $P{fechaFinal} 
+GROUP BY techshop.categoria.descripcion
+ORDER BY techshop.categoria.descripcion ASC]]></query>
+		<field name="Categoria" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
+			<property name="com.jaspersoft.studio.field.label" value="Categoria"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="categoria"/>
+		</field>
+		<field name="Total" class="java.lang.Double">
+			<property name="com.jaspersoft.studio.field.name" value="Total"/>
+			<property name="com.jaspersoft.studio.field.label" value="Total"/>
+		</field>
+	</dataset>
+	<parameter name="fechaInicial" class="java.lang.String"/>
+	<parameter name="fechaFinal" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[SELECT techshop.categoria.descripcion AS Categoria,
+	techshop.producto.descripcion AS Producto,
+	techshop.factura.fecha AS Fecha,
+	sum( techshop.venta.precio * techshop.venta.cantidad) AS Total
+FROM techshop.venta
+	INNER JOIN techshop.factura ON 
+	 techshop.venta.id_factura = techshop.factura.id_factura 
+	INNER JOIN techshop.producto ON 
+	 techshop.venta.id_producto = techshop.producto.id_producto 
+	INNER JOIN techshop.categoria ON 
+	 techshop.producto.id_categoria = techshop.categoria.id_categoria 
+WHERE 
+	 techshop.factura.fecha between $P{fechaInicial} and  $P{fechaFinal} 
+GROUP BY techshop.categoria.descripcion,
+	techshop.producto.descripcion,
+	techshop.factura.fecha
+ORDER BY techshop.categoria.descripcion ASC,
+	techshop.producto.descripcion ASC,
+	techshop.factura.fecha ASC]]></query>
+	<field name="Categoria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.label" value="Categoria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="categoria"/>
+	</field>
+	<field name="Producto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
+		<property name="com.jaspersoft.studio.field.label" value="Producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="producto"/>
+	</field>
+	<field name="Fecha" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="fecha"/>
+		<property name="com.jaspersoft.studio.field.label" value="Fecha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="factura"/>
+	</field>
+	<field name="Total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="Total"/>
+		<property name="com.jaspersoft.studio.field.label" value="Total"/>
+	</field>
+	<variable name="Total" resetType="Group" calculation="Sum" resetGroup="Group1" class="java.lang.Double">
+		<expression><![CDATA[$F{Total}]]></expression>
+	</variable>
+	<group name="Group1">
+		<expression><![CDATA[$F{Categoria}]]></expression>
+		<groupHeader>
+			<band height="33">
+				<element kind="textField" uuid="0d26fd2b-ef7a-4cdd-b7bf-e3f6f8173496" mode="Opaque" x="0" y="0" width="555" height="32" forecolor="#006699" backcolor="#E6E6E6" fontSize="24.0" bold="true">
+					<expression><![CDATA[$F{Categoria}]]></expression>
+				</element>
+				<element kind="line" uuid="f2651107-ef65-4276-9b41-1d5c3b77738b" x="-20" y="32" width="595" height="1" forecolor="#666666"/>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="30">
+				<element kind="textField" uuid="f889d125-18a6-4dce-b718-6dae7d52f531" x="440" y="0" width="115" height="20" markup="none" fontSize="14.0" textAdjust="StretchHeight" pattern="¤#,##0.##;¤-#,##0.##" hTextAlign="Right">
+					<expression><![CDATA[$V{Total}]]></expression>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d6da89f6-64eb-4d57-873e-d7e62f82f83c"/>
+				</element>
+				<element kind="staticText" uuid="cc6f2ab4-686d-44c4-9e01-d3b624f9c3f7" mode="Opaque" x="320" y="0" width="120" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
+					<text><![CDATA[Total]]></text>
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d964e2ba-3c79-4a5f-a8d3-45f4ae5460f4"/>
+				</element>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</band>
+		</groupFooter>
+	</group>
+	<background/>
+	<title height="72">
+		<element kind="frame" uuid="93024aa8-4990-4482-8c57-a1829c79aac1" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699">
+			<element kind="staticText" uuid="39ffd567-cf25-40f0-a320-1e28685f8d96" x="20" y="20" width="375" height="43" forecolor="#FFFFFF" fontSize="34.0" bold="true">
+				<text><![CDATA[Ventas Totales]]></text>
+			</element>
+			<element kind="staticText" uuid="44cd4ae5-baa7-4e35-a38e-78318985fa81" x="290" y="31" width="180" height="20" forecolor="#FFFFFF" fontSize="14.0" bold="false" hTextAlign="Right">
+				<text><![CDATA[Ventas entre]]></text>
+			</element>
+			<element kind="textField" uuid="2e694463-f008-40e5-a06a-b42735a41700" x="300" y="63" width="110" height="20" forecolor="#FFFFFF" fontSize="14.0" textAdjust="StretchHeight" pattern="M/d/yy" hTextAlign="Right">
+				<expression><![CDATA[$P{fechaInicial}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d964e2ba-3c79-4a5f-a8d3-45f4ae5460f4"/>
+			</element>
+			<element kind="textField" uuid="ecb176ef-f89d-493f-a880-56200425cd49" x="454" y="63" width="110" height="20" forecolor="#FFFFFF" fontSize="14.0" textAdjust="StretchHeight" pattern="M/d/yy">
+				<expression><![CDATA[$P{fechaFinal}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d964e2ba-3c79-4a5f-a8d3-45f4ae5460f4"/>
+			</element>
+			<element kind="staticText" uuid="2e2d614e-a9bf-4db0-bf7d-3c17458610ec" x="410" y="63" width="25" height="20" forecolor="#FFFFFF" fontSize="14.0" bold="false" hTextAlign="Right">
+				<text><![CDATA[Y]]></text>
+			</element>
+		</element>
+	</title>
+	<pageHeader height="13"/>
+	<columnHeader height="21">
+		<element kind="line" uuid="5ed8f3c2-13e4-47bc-a829-b2da1f4162fd" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
+		<element kind="staticText" uuid="bc9ed961-7785-47f5-8aa4-39604ce44fe9" mode="Opaque" x="0" y="0" width="270" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Producto]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="873d777f-7966-40a3-85f3-52b7e69ba3db"/>
+		</element>
+		<element kind="staticText" uuid="93adce19-6561-4243-92c7-4d3aa6704d92" mode="Opaque" x="320" y="0" width="120" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Fecha]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d964e2ba-3c79-4a5f-a8d3-45f4ae5460f4"/>
+		</element>
+		<element kind="staticText" uuid="b4b4b7ab-7cb9-438e-b2ea-7a724ba49811" mode="Opaque" x="460" y="0" width="95" height="20" forecolor="#006699" backcolor="#E6E6E6" fontSize="14.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Total]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d6da89f6-64eb-4d57-873e-d7e62f82f83c"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<element kind="line" uuid="c2ad5248-e49b-49e9-a004-2b2bfa3d6103" positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1"/>
+			<element kind="textField" uuid="f921d86d-a8c0-41fe-9699-db9d5ae48cfa" x="0" y="0" width="270" height="20" fontSize="14.0" textAdjust="StretchHeight" hTextAlign="Left">
+				<expression><![CDATA[$F{Producto}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="873d777f-7966-40a3-85f3-52b7e69ba3db"/>
+			</element>
+			<element kind="textField" uuid="dde276a0-6ceb-4207-b8f4-10978a333789" x="330" y="0" width="110" height="20" fontSize="14.0" textAdjust="StretchHeight" pattern="M/d/yy">
+				<expression><![CDATA[$F{Fecha}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d964e2ba-3c79-4a5f-a8d3-45f4ae5460f4"/>
+			</element>
+			<element kind="textField" uuid="f3f4caa4-cff5-40c4-b650-421a629a8cf2" x="440" y="0" width="115" height="20" fontSize="14.0" textAdjust="StretchHeight" pattern="¤#,##0.##;¤-#,##0.##" hTextAlign="Right">
+				<expression><![CDATA[$F{Total}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d6da89f6-64eb-4d57-873e-d7e62f82f83c"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter/>
+	<pageFooter height="17">
+		<element kind="textField" uuid="a3f4944d-3e49-4bbc-a643-2881c915a1ce" mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" hTextAlign="Right">
+			<expression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></expression>
+		</element>
+		<element kind="textField" uuid="7c70441a-d2aa-40ea-bbe4-5d1752691bce" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" evaluationTime="Report">
+			<expression><![CDATA[" " + $V{PAGE_NUMBER}]]></expression>
+		</element>
+		<element kind="textField" uuid="0ee700b0-4ea6-478d-84ec-7b1478dbc1f7" x="0" y="4" width="100" height="13" pattern="EEEEE dd MMMMM yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
+	</pageFooter>
+	<summary height="340">
+		<element kind="chart" chartType="pie" uuid="ec9ff57e-be54-40c1-9689-d08ef53f10cf" x="-20" y="20" width="595" height="320" evaluationTime="Report" linkType="None" linkTarget="Self">
+			<dataset kind="pie" resetType="Report">
+				<datasetRun uuid="df0cfdd3-efbe-4cb8-b3c7-0c80f9f45f03" subDataset="paraGrafico">
+					<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					<parameter name="fechaInicial">
+						<expression><![CDATA[$P{fechaInicial}]]></expression>
+					</parameter>
+					<parameter name="fechaFinal">
+						<expression><![CDATA[$P{fechaFinal}]]></expression>
+					</parameter>
+				</datasetRun>
+				<series>
+					<keyExpression><![CDATA[$F{Total}]]></keyExpression>
+					<valueExpression><![CDATA[$F{Total}]]></valueExpression>
+					<labelExpression><![CDATA[$F{Categoria}]]></labelExpression>
+				</series>
+			</dataset>
+			<plot>
+				<itemLabel/>
+			</plot>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+		</element>
+		<property name="com.jaspersoft.studio.unit.height" value="px"/>
+	</summary>
+</jasperReport>

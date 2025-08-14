@@ -23,23 +23,25 @@ public class ReporteController {
 
     
     //definir fecha de inicio y fecha final
-    @GetMapping("/principal")
+  @GetMapping("/principal")
     public String listado(Model model) {
         Calendar fecha = Calendar.getInstance();
-        String fechaIni = "" + (fecha.get(Calendar.YEAR) - 1) + "-01-01";
 
-        String strMes = (fecha.get(Calendar.MONTH) < 10 ? "0" : "") + fecha.get(Calendar.MONTH);
+        String fechaIni = (fecha.get(Calendar.YEAR) - 1) + "-01-01";
 
-        String strDia = (fecha.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "") + fecha.get(Calendar.DAY_OF_MONTH);
+        int mes = fecha.get(Calendar.MONTH) + 1; // ¡sumar 1!
+        String strMes = String.format("%02d", mes);
 
-        String fechaFin = "" + fecha.get(Calendar.YEAR) + "-" + strMes + "-" + strDia;
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        String strDia = String.format("%02d", dia);
 
-                            
+        String fechaFin = fecha.get(Calendar.YEAR) + "-" + strMes + "-" + strDia;
+
         model.addAttribute("fechaInicial", fechaIni);
         model.addAttribute("fechaFinal", fechaFin);
-
         return "/reportes/principal";
     }
+
 
     @GetMapping("/usuarios")
     public ResponseEntity<Resource> reporteUsuarios(@RequestParam String tipo)

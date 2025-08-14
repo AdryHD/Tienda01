@@ -77,7 +77,8 @@ public class ReporteServiceImpl implements ReporteService {
                                     parametros,
                                     datasource.getConnection());
             
- 
+
+
 
             MediaType mediaType = null;
             String archivoSalida = "";
@@ -88,7 +89,8 @@ public class ReporteServiceImpl implements ReporteService {
                     mediaType = MediaType.APPLICATION_PDF;
                     archivoSalida = reporte + ".pdf";
                     
-                   
+  System.out.println("Bytes generados usuarios: " + salida.size());
+                 
 
                 }
                 case "Xls" -> {
